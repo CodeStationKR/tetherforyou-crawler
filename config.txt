@@ -1,0 +1,3 @@
+chrome_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+user_data_directory='/Users/kimminsu/Library/Application Support/Google/Chrome'
+profile_directory='Default'
