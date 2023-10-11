@@ -5,7 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 class BaseCrawler():
     def __init__(self, chrome_path, user_data_directory, profile_directory):
-        self.base_api_url = 'http://localhost:5173/api'
+        self.base_api_url = 'https://tetherforyou.com/api'
         options = webdriver.ChromeOptions()
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')

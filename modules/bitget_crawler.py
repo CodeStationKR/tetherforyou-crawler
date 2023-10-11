@@ -1,4 +1,6 @@
+import json
 import re
+import requests
 from selenium.webdriver.common.by import By
 from modules.base_crawler import BaseCrawler
 
@@ -19,6 +21,8 @@ class BitgetCrawler(BaseCrawler):
     
     def preprocess(self, total_trade: str):
         total_trade = re.sub('[^0-9.]', '', total_trade)
+        if(total_trade == ''):
+            total_trade = 0.0
         total_trade = float(total_trade)
         return total_trade
     
@@ -39,7 +43,7 @@ class BitgetCrawler(BaseCrawler):
     
     def get_settled_commission(self, tds):
         result = 0.0
-        settled_commission = tds[-5].find_element(By.CSS_SELECTOR, 'div > span').text
+        settled_commission = tds[-6].find_element(By.CSS_SELECTOR, 'div > span').text
         if('\n' in settled_commission):
             settled_commissions = settled_commission.split('\n')
             for settled_commission in settled_commissions:
@@ -57,6 +61,17 @@ class BitgetCrawler(BaseCrawler):
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
             print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission)
+    
+    def upload(self, uid, total_trade, settled_commission):
+        url = self.base_api_url + '/bitget'
+        data = {
+            'uid': uid,
+            'transaction': total_trade,
+            'payback': settled_commission * 0.9,
+        }
+        request_json = json.dumps(data)
+        response = requests.post(url, data=request_json, headers={'Content-Type': 'application/json'})
+        print(response.text)
 
     def run(self):
         print('Bitget 크롤링을 시작합니다.')
@@ -67,7 +82,6 @@ class BitgetCrawler(BaseCrawler):
         self.get(self.base_url)
         self.sleep(2)
         self.get_result()
-        input('엔터를 눌러주세요')
         self.driver.quit()
         print('Bitget 크롤링을 종료합니다.')
 
