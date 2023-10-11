@@ -77,6 +77,7 @@ class BitgetCrawler(BaseCrawler):
             uid = self.get_uid(tds)
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
+            self.upload(uid, total_trade, settled_commission)
             print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission)
     
     def upload(self, uid, total_trade, settled_commission):
@@ -96,9 +97,11 @@ class BitgetCrawler(BaseCrawler):
         self.sleep(2)
         while self.check_login_required():
             input('로그인 후 엔터를 눌러주세요')
-        self.get(self.base_url)
-        self.sleep(2)
-        self.get_result()
+        total_pages = self.get_total_pages()
+        for page in range(1, total_pages + 1):
+            self.go_to_page(page)
+            self.sleep(2)
+            self.get_result()
         self.driver.quit()
         print('Bitget 크롤링을 종료합니다.')
 

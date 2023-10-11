@@ -1,3 +1,5 @@
+from modules.binance_crawler import BinanceCrawler
+from modules.bingx_crawler import BingXCrawler
 from modules.bitget_crawler import BitgetCrawler
 from modules.bitmart_crawler import BitmartCrawler
 from modules.bybit_crawler import BybitCrawler
@@ -18,6 +20,10 @@ def main():
     chrome_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
     user_data_directory='C:\\Users\\pc\\AppData\\Local\\Google\\Chrome\\User Data'
     profile_directory='Profile 733'
+    binance_crawler = BinanceCrawler(chrome_path, user_data_directory, profile_directory)
+    binance_crawler.run()
+    bingx_crawler = BingXCrawler(chrome_path, user_data_directory, profile_directory)
+    bingx_crawler.run()
     bybit_crawler = BybitCrawler(chrome_path, user_data_directory, profile_directory)
     bybit_crawler.run()
     okx_crawler = OkxCrawler(chrome_path, user_data_directory, profile_directory)

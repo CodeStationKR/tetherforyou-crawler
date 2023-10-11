@@ -1,10 +1,12 @@
+import json
 import re
+import requests
 from selenium.webdriver.common.by import By
 from modules.base_crawler import BaseCrawler
 
-class BitgetCrawler(BaseCrawler):
+class BingXCrawler(BaseCrawler):
     def __init__(self, chrome_path, user_data_directory, profile_directory):
-        self.base_url = f"https://newaffiliates.bitget.com/user-manage/user-business"
+        self.base_url = f"https://hi.bingx.com/commission/userDetail"
 
         super().__init__(chrome_path, user_data_directory, profile_directory)
 
@@ -22,21 +24,14 @@ class BitgetCrawler(BaseCrawler):
         total_trade = float(total_trade)
         return total_trade
     
-    def get_total_pages(self):
-        total_count = self.driver.find_element(By.CSS_SELECTOR, 'li.ant-pagination-total-text').text
-        total_count = re.sub('[^0-9]', '', total_count)
-        total_count = int(total_count)
-        if(total_count % 10 == 0):
-            return total_count // 10
-        else:
-            return total_count // 10 + 1
-    
     def get_uid(self, tds):
-        return tds[1].text.replace('\n', '').replace(' ', '')
+        uid= tds[0].text.replace('\n', '').replace(' ', '')
+        uid = re.sub('[^0-9.]', '', uid)
+        return uid
 
     def get_total_trade(self, tds):
         result = 0.0
-        total_trade = tds[3].find_element(By.CSS_SELECTOR, 'div > span').text
+        total_trade = tds[3].text
         if('\n' in total_trade):
             total_trades = total_trade.split('\n')
             for total_trade in total_trades:
@@ -45,10 +40,21 @@ class BitgetCrawler(BaseCrawler):
         else:
             result = self.preprocess(total_trade)
         return result
+    def upload(self, uid, total_trade, settled_commission):
+        # url = self.base_api_url + '/bingx'
+        url = 'http://localhost:5173/api/bingx'
+        data = {
+            'uid': uid,
+            'transaction': total_trade,
+            'payback': settled_commission * 0.9,
+        }
+        request_json = json.dumps(data)
+        response = requests.post(url, data=request_json, headers={'Content-Type': 'application/json'})
+        print(response.text)
     
     def get_settled_commission(self, tds):
         result = 0.0
-        settled_commission = tds[-5].find_element(By.CSS_SELECTOR, 'div > span').text
+        settled_commission = tds[-3].text
         if('\n' in settled_commission):
             settled_commissions = settled_commission.split('\n')
             for settled_commission in settled_commissions:
@@ -66,9 +72,10 @@ class BitgetCrawler(BaseCrawler):
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
             print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission)
+            self.upload(uid, total_trade, settled_commission)
 
     def run(self):
-        print('Bitget 크롤링을 시작합니다.')
+        print('BingX 크롤링을 시작합니다.')
         self.get(self.base_url)
         self.sleep(2)
         while self.check_login_required():
@@ -78,5 +85,5 @@ class BitgetCrawler(BaseCrawler):
         self.get_result()
         input('엔터를 눌러주세요')
         self.driver.quit()
-        print('Bitget 크롤링을 종료합니다.')
+        print('BingX 크롤링을 종료합니다.')
 
