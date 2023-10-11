@@ -1,6 +1,5 @@
 import re
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from modules.base_crawler import BaseCrawler
 
 class BitgetCrawler(BaseCrawler):
@@ -31,13 +30,6 @@ class BitgetCrawler(BaseCrawler):
             return total_count // 10
         else:
             return total_count // 10 + 1
-        
-    def go_to_page(self, page):
-        page_input = self.driver.find_element(By.CSS_SELECTOR, 'div.ant-pagination-options-quick-jumper > input')
-        page_input.clear()
-        page_input.send_keys(page)
-        page_input.send_keys(Keys.ENTER)
-        
     
     def get_uid(self, tds):
         return tds[1].text.replace('\n', '').replace(' ', '')
