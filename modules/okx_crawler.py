@@ -1,4 +1,6 @@
+import json
 import re
+import requests
 from selenium.webdriver.common.by import By
 from modules.base_crawler import BaseCrawler
 
@@ -12,13 +14,15 @@ class OkxCrawler(BaseCrawler):
         return 'login' in self.driver.current_url
     
     def get_table_trs(self):
-        table = self.driver.find_element(By.CSS_SELECTOR, 'div.okd5723b13-table-content > table')
+        table = self.driver.find_elements(By.CSS_SELECTOR, 'table')[1]
         tbody = table.find_element(By.CSS_SELECTOR, 'tbody')
         trs = tbody.find_elements(By.CSS_SELECTOR, 'tr')
         return trs[1:]
     
     def preprocess(self, total_trade: str):
         total_trade = re.sub('[^0-9.]', '', total_trade)
+        if(total_trade == ''):
+            total_trade = 0.0
         total_trade = float(total_trade)
         return total_trade
     
@@ -57,6 +61,18 @@ class OkxCrawler(BaseCrawler):
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
             print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission)
+            self.upload(uid, total_trade, settled_commission)
+
+    def upload(self, uid, total_trade, settled_commission):
+        url = self.base_api_url + '/okx'
+        data = {
+            'uid': uid,
+            'transaction': total_trade,
+            'payback': settled_commission * 0.9,
+        }
+        request_json = json.dumps(data)
+        response = requests.post(url, data=request_json, headers={'Content-Type': 'application/json'})
+        print(response.text)
 
     def run(self):
         print('OKX 크롤링을 시작합니다.')
@@ -68,4 +84,5 @@ class OkxCrawler(BaseCrawler):
         self.sleep(2)
         self.get_result()
         self.driver.quit()
+        # C:\Users\김성준\AppData\Local\Programs\Python\Python311\Lib
         print('OKX 크롤링을 종료합니다.')

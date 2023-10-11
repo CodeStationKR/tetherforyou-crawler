@@ -29,6 +29,8 @@ class BybitCrawler(BaseCrawler):
     
     def preprocess(self, total_trade: str):
         total_trade = re.sub('[^0-9.]', '', total_trade)
+        if(total_trade == ''):
+            total_trade = 0.0
         total_trade = float(total_trade)
         return total_trade
     
@@ -51,10 +53,8 @@ class BybitCrawler(BaseCrawler):
         result = 0.0
         settled_commission = tds[1].text
         if('\n' in settled_commission):
-            settled_commissions = settled_commission.split('\n')
-            for settled_commission in settled_commissions:
-                settled_commission = self.preprocess(settled_commission)
-                result += settled_commission
+            settled_commission = settled_commission.split('\n')[0]
+            
         else:
             result = self.preprocess(settled_commission)
         return result
