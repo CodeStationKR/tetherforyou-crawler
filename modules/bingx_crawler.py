@@ -41,8 +41,8 @@ class BingXCrawler(BaseCrawler):
             result = self.preprocess(total_trade)
         return result
     def upload(self, uid, total_trade, settled_commission):
-        # url = self.base_api_url + '/bingx'
-        url = 'http://localhost:5173/api/bingx'
+        url = self.base_api_url + '/bingx'
+        # url = 'http://localhost:5173/api/bingx'
         data = {
             'uid': uid,
             'transaction': total_trade,
