@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import requests
 from modules.base_crawler import BaseCrawler
+import datetime
 
 # 현재 로그인 안되고 있음
 
@@ -34,8 +35,11 @@ class BinanceCrawler(BaseCrawler):
         return total_trade
     
     def can_go_next_page(self):
-        next_page = self.driver.find_element(By.CSS_SELECTOR, 'div#Commissions button#next-page')
-        return (not next_page.get_attribute('disabled'), next_page)
+        try:
+            next_page = self.driver.find_element(By.CSS_SELECTOR, 'div#Commissions button#next-page')
+            return (not next_page.get_attribute('disabled'), next_page)
+        except:
+            return (False, None)
         
     def go_to_page(self, page):
         page_input = self.driver.find_element(By.CSS_SELECTOR, 'div.ant-pagination-options-quick-jumper > input')
@@ -50,6 +54,11 @@ class BinanceCrawler(BaseCrawler):
     def get_total_trade(self, tds):
         result = 0.0
         return result
+    
+    def get_commission_time(self, tds):
+        text = tds[-2].text
+        date = text.split(' ')[0]
+        return datetime.datetime.strptime(date, '%Y-%m-%d').timestamp()
     
     def get_settled_commission(self, tds):
         result = 0.0
@@ -70,6 +79,10 @@ class BinanceCrawler(BaseCrawler):
             uid = self.get_uid(tds)
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
+            commission_time = self.get_commission_time(tds)
+            week_ago = datetime.datetime.now().timestamp() - 3 * 24 * 60 * 60
+            if(commission_time < week_ago):
+                break
             self.upload(uid, total_trade, settled_commission)
             print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission)
     

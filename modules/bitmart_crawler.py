@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 class BitmartCrawler(BaseCrawler):
     def __init__(self, chrome_path, user_data_directory, profile_directory):
         self.base_url = f"https://www.bitmart.com/agent2/en-US?type=DIRECT_COMMISSION&mode=FUTURES"
-
+        
         super().__init__(chrome_path, user_data_directory, profile_directory)
 
     def check_login_required(self):
@@ -81,9 +81,22 @@ class BitmartCrawler(BaseCrawler):
             print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission)
             self.upload(uid, total_trade, settled_commission)
 
+    def go_to_login_page(self):
+        self.get('https://www.bitmart.com/en-US')
+        self.sleep(2)
+        self.driver.find_elements(By.CSS_SELECTOR, 'div.header div.component-navigator-bar div.component-navigator-bar-side a')[0].click()
+        self.sleep(2)
+
+
     def run(self):
+        self.driver.set_page_load_timeout(5)
         print('Bitmart 크롤링을 시작합니다.')
-        self.get(self.base_url)
+        # the code below cause infinite loading even I can see the page loaded
+        try:
+            self.get(self.base_url)
+        except:
+            self.go_to_login_page()
+
         self.sleep(2)
         while self.check_login_required():
             input('로그인 후 엔터를 눌러주세요')

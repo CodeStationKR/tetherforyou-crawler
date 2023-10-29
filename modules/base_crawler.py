@@ -18,7 +18,10 @@ class BaseCrawler():
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
     def get(self, url):
+        # get url and wait for only 5 seconds
+        
         self.driver.get(url)
+        
 
     def check_login_required(self):
         return True
