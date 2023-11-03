@@ -80,11 +80,11 @@ class BinanceCrawler(BaseCrawler):
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
             commission_time = self.get_commission_time(tds)
-            week_ago = datetime.datetime.now().timestamp() - 3 * 24 * 60 * 60
+            week_ago = datetime.datetime.now().timestamp() - 1 * 24 * 60 * 60
             if(commission_time < week_ago):
-                break
+                return False
             self.upload(uid, total_trade, settled_commission)
-            print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission)
+            print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission , 'commission_time : ', commission_time,week_ago, 'should upload : ', commission_time > week_ago)
     
     def upload(self, uid, total_trade, settled_commission):
         url = self.base_api_url + '/binance'
@@ -106,7 +106,9 @@ class BinanceCrawler(BaseCrawler):
         self.get(self.base_url)
         self.sleep(2)
         while(self.can_go_next_page()[0]):
-            self.get_result()
+            result = self.get_result()
+            if(result == False):
+                break
             self.can_go_next_page()[1].click()
             self.sleep(2)
         self.driver.quit()

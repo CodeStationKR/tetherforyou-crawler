@@ -16,22 +16,14 @@ ___________     __  .__                ___________          _____.___.
 
 def main():
     print(banner_text)
- 
-    chrome_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-    user_data_directory='/Users/kimminsu/Library/Application Support/Google/Chrome'
-    profile_directory='Default'
-    binance_crawler = BinanceCrawler(chrome_path, user_data_directory, profile_directory)
-    binance_crawler.run()
-    # bingx_crawler = BingXCrawler(chrome_path, user_data_directory, profile_directory)
-    # bingx_crawler.run()
-    # bybit_crawler = BybitCrawler(chrome_path, user_data_directory, profile_directory)
-    # bybit_crawler.run()
-    # okx_crawler = OkxCrawler(chrome_path, user_data_directory, profile_directory)
-    # okx_crawler.run()
-    # bitmart_crawler = BitmartCrawler(chrome_path, user_data_directory, profile_directory)
-    # bitmart_crawler.run()
-    # bitget_crawler = BitgetCrawler(chrome_path, user_data_directory, profile_directory)
-    # bitget_crawler.run()
+    # tetherforyou 733
+    chrome_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+    user_data_directory='C:\\Users\\pc\\AppData\\Local\\Google\\Chrome\\User Data'
+    profile_directory='Profile 733'
+   
+    bybit_crawler = BybitCrawler(chrome_path, user_data_directory, profile_directory)
+    bybit_crawler.run()
+   
 
 if __name__ == '__main__':
     main()
