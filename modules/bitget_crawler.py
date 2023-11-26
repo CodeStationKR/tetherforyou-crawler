@@ -97,6 +97,8 @@ class BitgetCrawler(BaseCrawler):
         self.sleep(2)
         while self.check_login_required():
             input('로그인 후 엔터를 눌러주세요')
+        self.get(self.base_url)
+        self.sleep(2)
         total_pages = self.get_total_pages()
         for page in range(1, total_pages + 1):
             self.go_to_page(page)
