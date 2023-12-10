@@ -84,5 +84,4 @@ class OkxCrawler(BaseCrawler):
         self.sleep(2)
         self.get_result()
         self.driver.quit()
-        # C:\Users\김성준\AppData\Local\Programs\Python\Python311\Lib
         print('OKX 크롤링을 종료합니다.')
