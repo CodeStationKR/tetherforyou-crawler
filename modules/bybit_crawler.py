@@ -32,6 +32,8 @@ class BybitCrawler(BaseCrawler):
         if(total_trade == ''):
             total_trade = 0.0
         total_trade = float(total_trade)
+        if(total_trade < 0):
+            total_trade = -total_trade
         return total_trade
     
     def get_uid(self, tds):
