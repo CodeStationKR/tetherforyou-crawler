@@ -42,4 +42,4 @@ class BaseCrawler():
         time.sleep(seconds)
 
     def run(self):
-        pass
+        input('Press any key to continue...')

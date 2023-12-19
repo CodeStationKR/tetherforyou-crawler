@@ -105,11 +105,22 @@ class BinanceCrawler(BaseCrawler):
             input('로그인 후 엔터를 눌러주세요')
         self.get(self.base_url)
         self.sleep(2)
-        while(self.can_go_next_page()[0]):
-            result = self.get_result()
-            if(result == False):
-                break
-            self.can_go_next_page()[1].click()
+        try:
+            while(self.can_go_next_page()[0]):
+                result = self.get_result()
+                if(result == False):
+                    break
+                self.can_go_next_page()[1].click()
+                self.sleep(2)
+        except Exception as e:
+            self.get(self.base_url)
             self.sleep(2)
+            while(self.can_go_next_page()[0]):
+                result = self.get_result()
+                if(result == False):
+                    break
+                self.can_go_next_page()[1].click()
+                self.sleep(2)
         self.driver.quit()
         print('Binance 크롤링을 종료합니다.')
+       
