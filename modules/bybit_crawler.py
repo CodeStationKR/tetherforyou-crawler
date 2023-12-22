@@ -7,10 +7,12 @@ from modules.base_crawler import BaseCrawler
 
 class BybitCrawler(BaseCrawler):
     def __init__(self, chrome_path, user_data_directory, profile_directory):
-        today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        self.base_url = f"https://affiliates.bybit.com/v2/affiliate-portal/clients?offset=0&coin=All&uid=&page_size=20&start_date={today}&end_date={today}&business=0"
 
         super().__init__(chrome_path, user_data_directory, profile_directory)
+
+    def get_base_url(self, start_date, end_date):
+        return f'https://www.bybit.com/app/user/affiliate?start_date={start_date}&end_date={end_date}&page=1'
+        
 
     def check_login_required(self):
         return 'login' in self.driver.current_url
@@ -88,18 +90,28 @@ class BybitCrawler(BaseCrawler):
 
     def run(self):
         print('Bybit 크롤링을 시작합니다.')
+        two_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 2))
+        yesterday = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24))
+        today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
-        self.get(self.base_url)
-        self.sleep(2)
-        while self.check_login_required():
-            input('로그인 후 엔터를 눌러주세요')
-        self.sleep(2)
+        urls = [
+            self.get_base_url(two_days_ago, two_days_ago),
+            self.get_base_url(yesterday, yesterday),
+            self.get_base_url(today, today),
+        ]
 
-        total_page = self.get_total_pages()
-        for i in range(1, total_page + 1):
-            self.go_to_page(i)
+        for url in urls:
+            self.get(url)
             self.sleep(2)
-            self.get_result()
+            while self.check_login_required():
+                input('로그인 후 엔터를 눌러주세요')
+            self.sleep(2)
+
+            total_page = self.get_total_pages()
+            for i in range(1, total_page + 1):
+                self.go_to_page(i)
+                self.sleep(2)
+                self.get_result()
         input('크롤링이 완료되었습니다. 엔터를 눌러주세요.')
         self.driver.quit()
         print('Bybit 크롤링을 종료합니다.')

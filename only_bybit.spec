@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['main.py'],
+    ['only_bybit.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -21,7 +21,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='main',
+    name='only_bybit',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
