@@ -6,12 +6,11 @@ from selenium.webdriver.common.by import By
 from modules.base_crawler import BaseCrawler
 
 class BybitCrawler(BaseCrawler):
-    def __init__(self, chrome_path, user_data_directory, profile_directory):
-
+    def __init__(self, chrome_path, user_data_directory, profile_directory):        
         super().__init__(chrome_path, user_data_directory, profile_directory)
 
     def get_base_url(self, start_date, end_date):
-        return f'https://www.bybit.com/app/user/affiliate?start_date={start_date}&end_date={end_date}&page=1'
+        return f'https://affiliates.bybit.com/v2/affiliate-portal/clients?offset=0&coin=All&uid=&page_size=20&start_date={start_date}&end_date={end_date}&business=0'
         
 
     def check_login_required(self):
@@ -63,29 +62,30 @@ class BybitCrawler(BaseCrawler):
             result = self.preprocess(settled_commission)
         return result
     
-    def go_to_page(self, page):
-        url = self.base_url + f'&page={page}'
+    def go_to_page(self, page, url):
+        url = url + f'&page={page}'
         self.get(url)
 
-    def upload(self, uid, total_trade, settled_commission):
+    def upload(self, uid, total_trade, settled_commission, day):
         url = self.base_api_url + '/bybit'
         data = {
             'uid': uid,
             'transaction': total_trade,
             'payback': settled_commission * 0.9,
+            'date': day
         }
         request_json = json.dumps(data)
         response = requests.post(url, data=request_json, headers={'Content-Type': 'application/json'})
         print(response.text)
     
-    def get_result(self):
+    def get_result(self, day):
         trs = self.get_table_trs()
         for tr in trs:
             tds = tr.find_elements(By.CSS_SELECTOR, 'td')
             uid = self.get_uid(tds)
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
-            self.upload(uid, total_trade, settled_commission)
+            self.upload(uid, total_trade, settled_commission, day)
             print('uid : ', uid, 'total : ',total_trade, 'settled : ',settled_commission)
 
     def run(self):
@@ -94,13 +94,14 @@ class BybitCrawler(BaseCrawler):
         yesterday = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24))
         today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
-        urls = [
-            self.get_base_url(two_days_ago, two_days_ago),
-            self.get_base_url(yesterday, yesterday),
-            self.get_base_url(today, today),
+        days = [
+            two_days_ago,
+            yesterday,
+            today,
         ]
 
-        for url in urls:
+        for day in days:
+            url = self.get_base_url(day, day)
             self.get(url)
             self.sleep(2)
             while self.check_login_required():
@@ -109,9 +110,9 @@ class BybitCrawler(BaseCrawler):
 
             total_page = self.get_total_pages()
             for i in range(1, total_page + 1):
-                self.go_to_page(i)
+                self.go_to_page(i, url)
                 self.sleep(2)
-                self.get_result()
+                self.get_result(day)
         input('크롤링이 완료되었습니다. 엔터를 눌러주세요.')
         self.driver.quit()
         print('Bybit 크롤링을 종료합니다.')
