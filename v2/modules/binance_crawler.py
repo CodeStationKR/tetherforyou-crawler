@@ -6,8 +6,6 @@ import requests
 from v2.modules.base_crawler import BaseCrawler
 import datetime
 
-# 현재 로그인 안되고 있음
-
 class BinanceCrawler(BaseCrawler):
     def __init__(self, chrome_path, user_data_directory, profile_directory):
         self.base_url = f"https://www.binance.com/en/activity/referral?stopRedirectToActivity=true"

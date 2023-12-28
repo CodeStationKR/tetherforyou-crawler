@@ -28,7 +28,16 @@ def main():
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('user-agent=Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36')
+
+    options.add_argument('enable-automation')
+
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--dns-prefetch-disable')
+    options.add_argument('--disable-gpu')
+
+    options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Safari/537.36')
     # add user profile
     options.add_argument(f"user-data-dir={user_data_directory}")
     options.add_argument(f"profile-directory={profile_directory}")
@@ -49,12 +58,12 @@ def main():
     #     print('빙엑스 크롤링 중 에러 발생')
     #     print(e)
     
-    try:
-        bybit_crawler = BybitCrawler(driver)
-        bybit_crawler.run()
-    except Exception as e:
-        print('바이비트 크롤링 중 에러 발생')
-        print(e)
+    # try:
+    #     bybit_crawler = BybitCrawler(driver)
+    #     bybit_crawler.run()
+    # except Exception as e:
+    #     print('바이비트 크롤링 중 에러 발생')
+    #     print(e)
 
     # try:
     #     okx_crawler = OkxCrawler(chrome_path, user_data_directory, profile_directory)
@@ -63,12 +72,12 @@ def main():
     #     print('OKX 크롤링 중 에러 발생')
     #     print(e)
 
-    # try:
-    #     bitmart_crawler = BitmartCrawler(chrome_path, user_data_directory, profile_directory)
-    #     bitmart_crawler.run()
-    # except Exception as e:
-    #     print('비트마트 크롤링 중 에러 발생')
-    #     print(e)
+    try:
+        bitmart_crawler = BitmartCrawler(driver)
+        bitmart_crawler.run()
+    except Exception as e:
+        print('비트마트 크롤링 중 에러 발생')
+        print(e)
 
     # try:
     #     bitget_crawler = BitgetCrawler(chrome_path, user_data_directory, profile_directory)
@@ -78,6 +87,7 @@ def main():
     #     print('비트겟 크롤링 중 에러 발생')
        
     #     print(e)
+    input('Press any key to continue...')
     driver.quit()
         
 

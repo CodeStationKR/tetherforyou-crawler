@@ -23,7 +23,7 @@ class BaseCrawler():
     def get_total_pages(self):
         pass
 
-    def get_result(self):
+    def get_results(self):
         pass
 
     def sleep(self, seconds):
