@@ -90,14 +90,13 @@ class BybitCrawler(BaseCrawler):
 
     def run(self):
         print('Bybit 크롤링을 시작합니다.')
+        three_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 3))
         two_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 2))
         yesterday = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24))
         today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
         days = [
-            two_days_ago,
-            yesterday,
-            today,
+            three_days_ago
         ]
 
         for day in days:

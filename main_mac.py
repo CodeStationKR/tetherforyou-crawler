@@ -19,7 +19,7 @@ def main():
  
     chrome_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
     user_data_directory='/Users/kimminsu/Library/Application Support/Google/Chrome'
-    profile_directory='Default'
+    profile_directory='Profile 3'
     # try:
     #     binance_crawler = BinanceCrawler(chrome_path, user_data_directory, profile_directory)
     #     binance_crawler.run()
