@@ -51,12 +51,12 @@ def main():
     #     print('바이낸스 크롤링 중 에러 발생')
     #     print(e)
 
-    # try:
-    #     bingx_crawler = BingXCrawler(chrome_path, user_data_directory, profile_directory)
-    #     bingx_crawler.run()
-    # except Exception as e:
-    #     print('빙엑스 크롤링 중 에러 발생')
-    #     print(e)
+    try:
+        bingx_crawler = BingXCrawler(driver)
+        bingx_crawler.run()
+    except Exception as e:
+        print('빙엑스 크롤링 중 에러 발생')
+        print(e)
     
     # try:
     #     bybit_crawler = BybitCrawler(driver)
@@ -72,12 +72,12 @@ def main():
     #     print('OKX 크롤링 중 에러 발생')
     #     print(e)
 
-    try:
-        bitmart_crawler = BitmartCrawler(driver)
-        bitmart_crawler.run()
-    except Exception as e:
-        print('비트마트 크롤링 중 에러 발생')
-        print(e)
+    # try:
+    #     bitmart_crawler = BitmartCrawler(driver)
+    #     bitmart_crawler.run()
+    # except Exception as e:
+    #     print('비트마트 크롤링 중 에러 발생')
+    #     print(e)
 
     # try:
     #     bitget_crawler = BitgetCrawler(chrome_path, user_data_directory, profile_directory)
