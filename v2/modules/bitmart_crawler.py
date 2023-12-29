@@ -63,7 +63,7 @@ class BitmartCrawler(BaseCrawler):
         return result
     
     def upload(self, results: list[dict]):
-        # self.base_api_url = 'http://localhost:5173/api'
+        self.base_api_url = 'http://localhost:5173/api'
         url = self.base_api_url + '/bitmart/v2'
         data = {
             'reqs': results

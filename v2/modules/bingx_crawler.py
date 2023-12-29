@@ -46,7 +46,7 @@ class BingXCrawler(BaseCrawler):
         return result
     
     def upload(self, results: list[dict]):
-        # self.base_api_url = 'http://localhost:5173/api'
+        self.base_api_url = 'http://localhost:5173/api'
         url = self.base_api_url + '/bingx/v2'
         data = {
             'reqs': results
@@ -121,7 +121,8 @@ class BingXCrawler(BaseCrawler):
 
         while self.check_login_required():
             input('로그인 후 엔터를 눌러주세요')
-
+        self.get(self.base_url)
+        self.sleep(2)
         for day in days:
             self.go_to_page(day)
             print(f'{day} 데이터 업로드 중...')

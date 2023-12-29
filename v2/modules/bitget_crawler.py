@@ -4,13 +4,14 @@ import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from v2.modules.base_crawler import BaseCrawler
+from selenium import webdriver
 
 
 class BitgetCrawler(BaseCrawler):
-    def __init__(self, chrome_path, user_data_directory, profile_directory):
-        self.base_url = f"https://newaffiliates.bitget.com/user-manage/user-business"
 
-        super().__init__(chrome_path, user_data_directory, profile_directory)
+    def __init__(self, driver : webdriver.Chrome):        
+        self.base_url = f"https://newaffiliates.bitget.com/user-manage/user-business"
+        super().__init__(driver)
 
     def check_login_required(self):
         return 'login' in self.driver.current_url
@@ -31,7 +32,7 @@ class BitgetCrawler(BaseCrawler):
         return total_trade
     
     def get_total_pages(self):
-        total_count = self.driver.find_element(By.CSS_SELECTOR, 'li.ant-pagination-total-text').text
+        total_count = self.driver.find_element(By.CSS_SELECTOR, 'ul.ant-pagination li.ant-pagination-total-text').text
         total_count = re.sub('[^0-9]', '', total_count)
         total_count = int(total_count)
         if(total_count % 10 == 0):
@@ -45,7 +46,6 @@ class BitgetCrawler(BaseCrawler):
         page_input.send_keys(page)
         page_input.send_keys(Keys.ENTER)
         
-    
     def get_uid(self, tds):
         return tds[1].text.replace('\n', '').replace(' ', '')
 
@@ -73,7 +73,7 @@ class BitgetCrawler(BaseCrawler):
             result = self.preprocess(settled_commission)
         return result
     
-    def get_result(self):
+    def get_results(self):
         trs = self.get_table_trs()
         for tr in trs:
             tds = tr.find_elements(By.CSS_SELECTOR, 'td')
@@ -85,14 +85,14 @@ class BitgetCrawler(BaseCrawler):
     
     def upload(self, uid, total_trade, settled_commission):
         url = self.base_api_url + '/bitget'
-        data = {
-            'uid': uid,
-            'transaction': total_trade,
-            'payback': settled_commission * 0.9,
-        }
-        request_json = json.dumps(data)
-        response = requests.post(url, data=request_json, headers={'Content-Type': 'application/json'})
-        print(response.text)
+        # data = {
+        #     'uid': uid,
+        #     'transaction': total_trade,
+        #     'payback': settled_commission * 0.9,
+        # }
+        # request_json = json.dumps(data)
+        # response = requests.post(url, data=request_json, headers={'Content-Type': 'application/json'})
+        # print(response.text)
 
     def run(self):
         print('Bitget 크롤링을 시작합니다.')
@@ -101,12 +101,14 @@ class BitgetCrawler(BaseCrawler):
         while self.check_login_required():
             input('로그인 후 엔터를 눌러주세요')
         self.get(self.base_url)
-        self.sleep(2)
-        total_pages = self.get_total_pages()
+        self.sleep(3)
+        try:
+            total_pages = self.get_total_pages()
+        except: 
+            total_pages = input('페이지 수를 읽어오는데 실패했습니다. 페이지 수를 입력해주세요 : ')
         for page in range(1, total_pages + 1):
             self.go_to_page(page)
             self.sleep(2)
-            self.get_result()
-        self.driver.quit()
+            self.get_results()
         print('Bitget 크롤링을 종료합니다.')
 

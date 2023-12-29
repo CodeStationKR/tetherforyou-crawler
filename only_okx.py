@@ -5,6 +5,12 @@ from modules.bitmart_crawler import BitmartCrawler
 from modules.bybit_crawler import BybitCrawler
 from modules.okx_crawler import OkxCrawler
 
+# apikey = "5994fe19-55ff-454e-a5e2-5d680611aa80"
+# secretkey = "B9B179F278DC051554EFB1A3EB836E64"
+# IP = ""
+# API name = "Tetherforyou crawler"
+# Permissions = "Read"
+
 banner_text = '''
 ___________     __  .__                ___________          _____.___.             
 \__    ___/____/  |_|  |__   __________\_   _____/__________\__  |   | ____  __ __ 

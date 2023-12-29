@@ -5,7 +5,6 @@ from v2.modules.bingx_crawler import BingXCrawler
 from v2.modules.bitget_crawler import BitgetCrawler
 from v2.modules.bitmart_crawler import BitmartCrawler
 from v2.modules.bybit_crawler import BybitCrawler
-from v2.modules.okx_crawler import OkxCrawler
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -25,17 +24,25 @@ def main():
     chrome_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
     user_data_directory='/Users/kimminsu/Library/Application Support/Google/Chrome'
     profile_directory='Profile 3'
+
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-
-    options.add_argument('enable-automation')
-
     options.add_argument('--window-size=1920,1080')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-extensions')
     options.add_argument('--dns-prefetch-disable')
     options.add_argument('--disable-gpu')
+    options.add_argument('--disable-browser-side-navigation')
+    options.add_argument('--disable-infobars')
+
+    options.add_argument("--disable-infobars")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-popup-blocking")
+
+    # disable the banner "Chrome is being controlled by automated test software"
+    options.add_experimental_option("useAutomationExtension", False)
+    options.add_experimental_option("excludeSwitches", ['enable-automation'])
 
     options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Safari/537.36')
     # add user profile
@@ -44,12 +51,6 @@ def main():
 
     options.binary_location = chrome_path
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    # try:
-    #     binance_crawler = BinanceCrawler(chrome_path, user_data_directory, profile_directory)
-    #     binance_crawler.run()
-    # except Exception as e:
-    #     print('바이낸스 크롤링 중 에러 발생')
-    #     print(e)
 
     try:
         bingx_crawler = BingXCrawler(driver)
@@ -58,35 +59,35 @@ def main():
         print('빙엑스 크롤링 중 에러 발생')
         print(e)
     
-    # try:
-    #     bybit_crawler = BybitCrawler(driver)
-    #     bybit_crawler.run()
-    # except Exception as e:
-    #     print('바이비트 크롤링 중 에러 발생')
-    #     print(e)
+    try:
+        bybit_crawler = BybitCrawler(driver)
+        bybit_crawler.run()
+    except Exception as e:
+        print('바이비트 크롤링 중 에러 발생')
+        print(e)
+
+    try:
+        bitmart_crawler = BitmartCrawler(driver)
+        bitmart_crawler.run()
+    except Exception as e:
+        print('비트마트 크롤링 중 에러 발생')
+        print(e)
+
+    try:
+        binance_crawler = BinanceCrawler(driver)
+        binance_crawler.run()
+    except Exception as e:
+        print('바이낸스 크롤링 중 에러 발생')
+        print(e)
 
     # try:
-    #     okx_crawler = OkxCrawler(chrome_path, user_data_directory, profile_directory)
-    #     okx_crawler.run()
-    # except Exception as e:
-    #     print('OKX 크롤링 중 에러 발생')
-    #     print(e)
-
-    # try:
-    #     bitmart_crawler = BitmartCrawler(driver)
-    #     bitmart_crawler.run()
-    # except Exception as e:
-    #     print('비트마트 크롤링 중 에러 발생')
-    #     print(e)
-
-    # try:
-    #     bitget_crawler = BitgetCrawler(chrome_path, user_data_directory, profile_directory)
+    #     bitget_crawler = BitgetCrawler(driver)
     #     bitget_crawler.run()
     # except Exception as e:
 
     #     print('비트겟 크롤링 중 에러 발생')
-       
     #     print(e)
+
     input('Press any key to continue...')
     driver.quit()
         
