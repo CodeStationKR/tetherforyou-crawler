@@ -111,7 +111,7 @@ class BinanceCrawler(BaseCrawler):
         return results
     
     def upload(self, results: list[dict]):
-        self.base_api_url = 'http://localhost:5173/api'
+        # self.base_api_url = 'http://localhost:5173/api'
         url = self.base_api_url + '/binance/v2'
         data = {
             'reqs': results
