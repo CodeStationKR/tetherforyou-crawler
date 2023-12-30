@@ -92,8 +92,8 @@ class BinanceCrawler(BaseCrawler):
 
             today = datetime.datetime.now()
             today = datetime.datetime(today.year, today.month, today.day)
-            three_days_ago = today - datetime.timedelta(days=3)
-            if(commission_time < three_days_ago):
+            two_days_ago = today - datetime.timedelta(days=2)
+            if(commission_time < two_days_ago):
                 return False
 
             if commission_time_str not in self.results:
