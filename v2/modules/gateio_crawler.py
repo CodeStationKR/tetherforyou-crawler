@@ -72,7 +72,7 @@ class GateIoCrawler(BaseCrawler):
         return result
     
     def upload(self, results: list[dict]):
-        # self.base_api_url = 'http://localhost:5173/api'
+        self.base_api_url = 'http://localhost:5173/api'
         url = self.base_api_url + '/gate-io/v2'
         data = {
             'reqs': results
@@ -123,14 +123,14 @@ class GateIoCrawler(BaseCrawler):
             results = self.get_results()
             print(results)
             print('페이지 크롤링 완료, 업로드를 시작합니다.')
-            # self.upload(results)
+            self.upload(results)
             self.go_to_next_page()
             self.sleep(2)
         results = self.get_results()
         print(results)
         print('페이지 크롤링 완료, 업로드를 시작합니다.')
         
-        # self.upload(results)
+        self.upload(results)
         input('엔터를 눌러주세요')
 
         print('Gate.io 크롤링을 종료합니다.')
