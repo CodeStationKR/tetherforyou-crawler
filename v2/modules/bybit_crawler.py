@@ -89,6 +89,7 @@ class BybitCrawler(BaseCrawler):
                 'uid': uid,
                 'transaction': total_trade,
                 'payback': settled_commission * 0.9,
+                'originalPayback': settled_commission,
                 'date': day
             })
         return results
