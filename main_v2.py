@@ -21,9 +21,13 @@ ___________     __  .__                ___________          _____.___.
 def main():
     print(banner_text)
  
+    # chrome_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+    # user_data_directory='C:\\Users\\metas\\AppData\\Local\\Google\\Chrome\\User Data'
+    # profile_directory='Profile 1'
+
     chrome_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-    user_data_directory='C:\\Users\\pc\\AppData\\Local\\Google\\Chrome\\User Data'
-    profile_directory='Profile 733'
+    user_data_directory='C:\\Users\\metas\\AppData\\Local\\Google\\Chrome\\User Data'
+    profile_directory='Profile 1'
 
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
@@ -46,8 +50,8 @@ def main():
 
     options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Safari/537.36')
     # add user profile
-    options.add_argument(f"user-data-dir={user_data_directory}")
-    options.add_argument(f"profile-directory={profile_directory}")
+    options.add_argument(f"--user-data-dir={user_data_directory}")
+    options.add_argument(f"--profile-directory={profile_directory}")
 
     options.binary_location = chrome_path
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)

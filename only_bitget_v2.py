@@ -18,8 +18,8 @@ def main():
     print(banner_text)
  
     chrome_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-    user_data_directory='C:\\Users\\pc\\AppData\\Local\\Google\\Chrome\\User Data'
-    profile_directory='Profile 733'
+    user_data_directory='C:\\Users\\metas\\AppData\\Local\\Google\\Chrome\\User Data'
+    profile_directory='Profile 1'
 
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
