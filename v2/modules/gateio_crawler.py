@@ -49,7 +49,7 @@ class GateIoCrawler(BaseCrawler):
     def get_total_trade(self, tds):
         # daily transaction fee
         result = 0.0
-        total_trade = tds[-5].text
+        total_trade = tds[-6].text
         if('\n' in total_trade):
             total_trades = total_trade.split('\n')
             for total_trade in total_trades:
@@ -61,7 +61,7 @@ class GateIoCrawler(BaseCrawler):
     
     def get_settled_commission(self, tds):
         result = 0.0
-        settled_commission = tds[-4].text
+        settled_commission = tds[-5].text
         if('\n' in settled_commission):
             settled_commissions = settled_commission.split('\n')
             for settled_commission in settled_commissions:
@@ -91,6 +91,7 @@ class GateIoCrawler(BaseCrawler):
             uid = self.get_uid(tds)
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
+            print(settled_commission, 'payback', settled_commission * 0.9)
             results.append({
                 'uid': uid,
                 'transaction': total_trade,
