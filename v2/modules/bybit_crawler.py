@@ -21,7 +21,7 @@ class BybitCrawler(BaseCrawler):
     def get_total_pages(self):
         results_h5 = self.driver.find_elements(By.CSS_SELECTOR, 'div.clients-page-table-panel > h5.ant-typography')[0].text.replace(' Results', '')
         results = int(results_h5)
-        total_page = results // 20 + 1
+        total_page = results // 20 
         return total_page
     
     def get_table_trs(self):
