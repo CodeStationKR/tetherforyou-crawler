@@ -1,9 +1,5 @@
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from v2.modules.binance_crawler import BinanceCrawler
-from v2.modules.bingx_crawler import BingXCrawler
-from v2.modules.bitget_crawler import BitgetCrawler
-from v2.modules.bitmart_crawler import BitmartCrawler
 from v2.modules.bybit_crawler import BybitCrawler
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -21,10 +17,6 @@ ___________     __  .__                ___________          _____.___.
 def main():
     print(banner_text)
  
-    # chrome_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-    # user_data_directory='C:\\Users\\metas\\AppData\\Local\\Google\\Chrome\\User Data'
-    # profile_directory='Profile 1'
-
     chrome_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
     user_data_directory='C:\\Users\\metas\\AppData\\Local\\Google\\Chrome\\User Data'
     profile_directory='Profile 1'
@@ -50,19 +42,12 @@ def main():
 
     options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Safari/537.36')
     # add user profile
-    options.add_argument(f"--user-data-dir={user_data_directory}")
-    options.add_argument(f"--profile-directory={profile_directory}")
+    options.add_argument(f"user-data-dir={user_data_directory}")
+    options.add_argument(f"profile-directory={profile_directory}")
 
     options.binary_location = chrome_path
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-    try:
-        bingx_crawler = BingXCrawler(driver)
-        bingx_crawler.run()
-    except Exception as e:
-        print('빙엑스 크롤링 중 에러 발생')
-        print(e)
-    
     try:
         bybit_crawler = BybitCrawler(driver)
         bybit_crawler.run()
@@ -70,27 +55,6 @@ def main():
         print('바이비트 크롤링 중 에러 발생')
         print(e)
 
-    try:
-        bitmart_crawler = BitmartCrawler(driver)
-        bitmart_crawler.run()
-    except Exception as e:
-        print('비트마트 크롤링 중 에러 발생')
-        print(e)
-
-    try:
-        binance_crawler = BinanceCrawler(driver)
-        binance_crawler.run()
-    except Exception as e:
-        print('바이낸스 크롤링 중 에러 발생')
-        print(e)
-
-    try:
-        bitget_crawler = BitgetCrawler(driver)
-        bitget_crawler.run()
-    except Exception as e:
-
-        print('비트겟 크롤링 중 에러 발생')
-        print(e)
 
     input('Press any key to continue...')
     driver.quit()
