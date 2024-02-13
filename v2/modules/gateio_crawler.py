@@ -11,23 +11,28 @@ from selenium import webdriver
 class GateIoCrawler(BaseCrawler):
 
     def __init__(self, driver : webdriver.Chrome):        
-        self.base_url = f"https://www.gate.io/partner/admin/customerManagement/customer"
+        self.base_url = f"https://www.gate.io/rebate/partner/admin/customerManagement/customer"
         super().__init__(driver)
 
     def check_login_required(self):
         return 'https://www.gate.io/referral' == self.driver.current_url
     
     def check_has_next_page(self):
-        next_page = self.driver.find_element(By.CSS_SELECTOR, 'li.ant-pagination-next')
-        return 'ant-pagination-disabled' not in next_page.get_attribute('class')
+        next_page_buttons = self.driver.find_elements(By.CSS_SELECTOR, 'button.mantine-GatePagination-item')
+        next_page = next_page_buttons[-1]
+        return  next_page.get_attribute('aria-disabled') is None
     
     def go_to_next_page(self):
-        next_page = self.driver.find_element(By.CSS_SELECTOR, 'li.ant-pagination-next')
+        if(self.driver.current_url == 'https://www.gate.io/rebate/partner/admin/dataCenter'):
+            input('url이 변경되었습니다. Traders Management > Traders List로 이동 후 엔터를 눌러주세요')
+            self.sleep(2)
+        next_page_buttons = self.driver.find_elements(By.CSS_SELECTOR, 'button.mantine-GatePagination-item')
+        next_page = next_page_buttons[-1]
         next_page.click()
         time.sleep(5)
     
     def get_table_trs(self):
-        table = self.driver.find_element(By.CSS_SELECTOR, 'div.ant-table-content table')
+        table = self.driver.find_element(By.CSS_SELECTOR, 'div.mantine-GateTableContainer-root table')
         tbody = table.find_element(By.CSS_SELECTOR, 'tbody')
         trs = tbody.find_elements(By.CSS_SELECTOR, 'tr')
         trs = trs[1:]
@@ -49,7 +54,7 @@ class GateIoCrawler(BaseCrawler):
     def get_total_trade(self, tds):
         # daily transaction fee
         result = 0.0
-        total_trade = tds[-5].text
+        total_trade = tds[-5].find_element(By.CSS_SELECTOR, 'div').text
         if('\n' in total_trade):
             total_trades = total_trade.split('\n')
             for total_trade in total_trades:
@@ -61,7 +66,7 @@ class GateIoCrawler(BaseCrawler):
     
     def get_settled_commission(self, tds):
         result = 0.0
-        settled_commission = tds[-4].text
+        settled_commission = tds[-4].find_element(By.CSS_SELECTOR, 'div').text
         if('\n' in settled_commission):
             settled_commissions = settled_commission.split('\n')
             for settled_commission in settled_commissions:
@@ -117,7 +122,10 @@ class GateIoCrawler(BaseCrawler):
             print('쿠키 파일을 찾을 수 없습니다.')
         while self.check_login_required():
             input('로그인 후 엔터를 눌러주세요')
-        self.get(self.base_url)
+
+        while self.driver.current_url != self.base_url:
+            input('url이 변경되었습니다. Traders Management > Traders List로 이동 후 엔터를 눌러주세요')
+            self.sleep(2)
 
         self.sleep(2)
         while self.check_has_next_page():

@@ -56,14 +56,6 @@ def main():
     options.binary_location = chrome_path
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-    try:
-        cookies = pickle.load(open("cookies.pkl", "rb"))
-        for cookie in cookies:
-            driver.add_cookie(cookie)
-    except Exception as e:
-        print(e)
-        print('쿠키 파일을 찾을 수 없습니다.')
-
     # try:
     #     bingx_crawler = BingXCrawler(driver)
     #     bingx_crawler.run()
@@ -71,12 +63,12 @@ def main():
     #     print('빙엑스 크롤링 중 에러 발생')
     #     print(e)
     
-    # try:
-    #     bybit_crawler = BybitCrawler(driver)
-    #     bybit_crawler.run()
-    # except Exception as e:
-    #     print('바이비트 크롤링 중 에러 발생')
-    #     print(e)
+    try:
+        bybit_crawler = BybitCrawler(driver)
+        bybit_crawler.run()
+    except Exception as e:
+        print('바이비트 크롤링 중 에러 발생')
+        print(e)
 
     # try:
     #     bitmart_crawler = BitmartCrawler(driver)
@@ -100,15 +92,7 @@ def main():
     #     print('비트겟 크롤링 중 에러 발생')
     #     print(e)
 
-    try:
-        gateio_crawler = GateIoCrawler(driver)
-        gateio_crawler.run()
-    except Exception as e:
 
-        print('게이트 크롤링 중 에러 발생')
-        print(e)
-
-    pickle.dump(driver.get_cookies(), open("cookies.pkl", "wb"))
 
     input('Press any key to continue...')
     driver.quit()
