@@ -56,33 +56,33 @@ def main():
     options.binary_location = chrome_path
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-    # try:
-    #     bingx_crawler = BingXCrawler(driver)
-    #     bingx_crawler.run()
-    # except Exception as e:
-    #     print('빙엑스 크롤링 중 에러 발생')
-    #     print(e)
+    try:
+        bingx_crawler = BingXCrawler(driver)
+        bingx_crawler.run()
+    except Exception as e:
+        print('빙엑스 크롤링 중 에러 발생')
+        print(e)
     
-    # try:
-    #     bybit_crawler = BybitCrawler(driver)
-    #     bybit_crawler.run()
-    # except Exception as e:
-    #     print('바이비트 크롤링 중 에러 발생')
-    #     print(e)
+    try:
+        bybit_crawler = BybitCrawler(driver)
+        bybit_crawler.run()
+    except Exception as e:
+        print('바이비트 크롤링 중 에러 발생')
+        print(e)
 
-    # try:
-    #     bitmart_crawler = BitmartCrawler(driver)
-    #     bitmart_crawler.run()
-    # except Exception as e:
-    #     print('비트마트 크롤링 중 에러 발생')
-    #     print(e)
+    try:
+        bitmart_crawler = BitmartCrawler(driver)
+        bitmart_crawler.run()
+    except Exception as e:
+        print('비트마트 크롤링 중 에러 발생')
+        print(e)
 
-    # try:
-    #     binance_crawler = BinanceCrawler(driver)
-    #     binance_crawler.run()
-    # except Exception as e:
-    #     print('바이낸스 크롤링 중 에러 발생')
-    #     print(e)
+    try:
+        binance_crawler = BinanceCrawler(driver)
+        binance_crawler.run()
+    except Exception as e:
+        print('바이낸스 크롤링 중 에러 발생')
+        print(e)
 
     try:
         bitget_crawler = BitgetCrawler(driver)
