@@ -34,12 +34,12 @@ def main():
     #     print('빙엑스 크롤링 중 에러 발생')
     #     print(e)
     
-    try:
-        bybit_crawler = BybitCrawler(chrome_path, user_data_directory, profile_directory)
-        bybit_crawler.run()
-    except Exception as e:
-        print('바이비트 크롤링 중 에러 발생')
-        print(e)
+    # try:
+    #     bybit_crawler = BybitCrawler(chrome_path, user_data_directory, profile_directory)
+    #     bybit_crawler.run()
+    # except Exception as e:
+    #     print('바이비트 크롤링 중 에러 발생')
+    #     print(e)
 
     # try:
     #     okx_crawler = OkxCrawler(chrome_path, user_data_directory, profile_directory)
@@ -55,12 +55,12 @@ def main():
     #     print('비트마트 크롤링 중 에러 발생')
     #     print(e)
 
-    # try:
-    #     bitget_crawler = BitgetCrawler(chrome_path, user_data_directory, profile_directory)
-    #     bitget_crawler.run()
-    # except Exception as e:
+    try:
+        bitget_crawler = BitgetCrawler(chrome_path, user_data_directory, profile_directory)
+        bitget_crawler.run()
+    except Exception as e:
 
-    #     print('비트겟 크롤링 중 에러 발생')
+        print('비트겟 크롤링 중 에러 발생')
        
     #     print(e)
         

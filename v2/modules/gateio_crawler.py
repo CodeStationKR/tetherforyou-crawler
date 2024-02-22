@@ -11,7 +11,7 @@ from selenium import webdriver
 class GateIoCrawler(BaseCrawler):
 
     def __init__(self, driver : webdriver.Chrome):        
-        self.base_url = f"https://www.gate.io/rebate/partner/admin/customerManagement/customer"
+        self.base_url = "https://www.gate.io/rebate/partner/admin/customerManagement/customer"
         super().__init__(driver)
 
     def check_login_required(self):
@@ -108,7 +108,7 @@ class GateIoCrawler(BaseCrawler):
 
     def run(self):
         print('Gate.io 크롤링을 시작합니다.')
-        self.get(self.base_url)
+        self.get('https://www.gate.io/referral')
 
         self.sleep(2)
 

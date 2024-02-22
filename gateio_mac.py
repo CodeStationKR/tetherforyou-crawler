@@ -11,10 +11,14 @@ chrome_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 user_data_directory='/Users/kimminsu/Library/Application Support/Google/Chrome'
 profile_directory='Profile 3'
 options.add_argument(f"--user-data-dir={user_data_directory}")
+headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'
+        }
 options.add_argument(f"--profile-directory={profile_directory}")
 
+
 # WebDriver 객체 생성
-driver = uc.Chrome( options = options,enable_cdp_events=True,incognito=True)
+driver = uc.Chrome( options = options,enable_cdp_events=True, version_main=120)
 
 # selenium_stealth 설정
 stealth(driver,
@@ -23,6 +27,7 @@ stealth(driver,
         webgl_vendor="intel Inc. ",
         renderer= "Intel Iris OpenGL Engine",
         fix_hairline=True,
+        headers=headers,
         )
 
 
