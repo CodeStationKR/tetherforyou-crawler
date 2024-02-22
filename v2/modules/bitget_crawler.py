@@ -39,7 +39,7 @@ class BitgetCrawler(BaseCrawler):
         if(total_count % 10 == 0):
             return total_count // 10
         else:
-            return total_count // 10 + 1
+            return total_count // 10
         
     def go_to_page(self, page):
         page_input = self.driver.find_element(By.CSS_SELECTOR, 'div.ant-pagination-options-quick-jumper > input')
