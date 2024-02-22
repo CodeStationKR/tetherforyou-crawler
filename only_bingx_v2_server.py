@@ -1,6 +1,6 @@
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from v2.modules.bitget_crawler import BitgetCrawler
+from v2.modules.bingx_crawler import BingXCrawler
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -19,7 +19,7 @@ def main():
  
     chrome_path='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
     user_data_directory='C:\\Users\\metas\\AppData\\Local\\Google\\Chrome\\User Data'
-    profile_directory='Profile 1'
+    profile_directory='Default'
 
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
@@ -48,14 +48,11 @@ def main():
     options.binary_location = chrome_path
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
- 
-
     try:
-        bitget_crawler = BitgetCrawler(driver)
-        bitget_crawler.run()
+        bingx_crawler = BingXCrawler(driver)
+        bingx_crawler.run()
     except Exception as e:
-
-        print('비트겟 크롤링 중 에러 발생')
+        print('빙엑스 크롤링 중 에러 발생')
         print(e)
 
     input('Press any key to continue...')
