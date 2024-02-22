@@ -6,7 +6,7 @@ git pull
 @REM 2 for specific
 @REM 3 for none
 
-set /p mode=크롤러 번호를 선택해주세요 (1 전체, 2 바이낸스, 3 빙엑스, 4 비트겟, 5 비트마트, 6 게이트아이오):
+set /p mode=Select Crawler (1 ALL, 2 BINANCE, 3 BINGX, 4 BITGET, 5 BITMART, 6 GATE.IO):
 @REM if mode is 1
 if %mode%==1 (
     @REM run all
