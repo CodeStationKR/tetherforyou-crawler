@@ -10,7 +10,7 @@ set /p mode=Select Crawler (1 ALL, 2 BINANCE, 3 BINGX, 4 BITGET, 5 BITMART, 6 GA
 @REM if mode is 1
 if %mode%==1 (
     @REM run all
-    python main_server.py
+    python main_v2_server.py
     @REM after main server is done run gateio
     python only_gateio_server.py
 )
