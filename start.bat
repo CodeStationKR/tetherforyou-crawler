@@ -44,3 +44,5 @@ if %mode%==6 (
     @REM run gateio
     python only_gateio_server.py
 )
+
+pause
