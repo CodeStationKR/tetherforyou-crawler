@@ -153,7 +153,8 @@ class BitgetCrawler(BaseCrawler):
             except: 
                 total_pages = int(input('페이지 수를 읽어오는데 실패했습니다. 페이지 수를 입력해주세요 : '))
             for page in range(1, total_pages + 1):
-                self.go_to_page(page)
+                if(page > 1):
+                    self.go_to_page(page)
                 print(f'{day} {page} 페이지 크롤링 중... {total_pages} 페이지 중 {page} 페이지')
                 self.sleep(2)
                 results = self.get_results(day)
