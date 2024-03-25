@@ -36,10 +36,16 @@ class BitgetCrawler(BaseCrawler):
         total_count = self.driver.find_element(By.CSS_SELECTOR, 'ul.ant-pagination li.ant-pagination-total-text').text
         total_count = re.sub('[^0-9]', '', total_count)
         total_count = int(total_count)
-        if(total_count % 10 == 0):
-            return total_count // 10
-        else:
-            return total_count // 10
+        # a page has 10 items
+        # if 10 items are in a page, total pages should be 1
+        # if 11 items are in a page, total pages should be 2
+        # 11 // 10 = 1 (this is the case of 11 items in a page, so total pages should be 2)
+        # 10 // 10 = 1
+        total_pages = int(total_count / 10)
+        if(total_count % 10 != 0):
+            total_pages += 1
+        return total_pages
+
         
     def go_to_page(self, page):
         page_input = self.driver.find_element(By.CSS_SELECTOR, 'div.ant-pagination-options-quick-jumper > input')
@@ -143,6 +149,7 @@ class BitgetCrawler(BaseCrawler):
             self.sleep(2)
             try:
                 total_pages = self.get_total_pages()
+                total_pages = int(input(f'받아온 토탈 페이지 수는 {total_pages}입니다. 확인차 페이지 수를 입력해주세요 : '))
             except: 
                 total_pages = int(input('페이지 수를 읽어오는데 실패했습니다. 페이지 수를 입력해주세요 : '))
             for page in range(1, total_pages + 1):
