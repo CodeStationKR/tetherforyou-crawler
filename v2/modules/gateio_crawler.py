@@ -123,7 +123,7 @@ class GateIoCrawler(BaseCrawler):
         while self.check_login_required():
             input('로그인 후 엔터를 눌러주세요')
 
-        while (self.driver.current_url != self.base_url or self.driver.current_url != 'https://www.gate.io/rebate/agency/admin/dataCenter'):
+        while (self.driver.current_url != self.base_url or self.driver.current_url != 'https://www.gate.io/rebate/agency/admin/customerManagement/customer' or self.driver.current_url != 'https://gate.io/rebate/agency/admin/customerManagement/customer'):
             input('url이 변경되었습니다. Traders Management > Traders List로 이동 후 엔터를 눌러주세요')
             self.sleep(2)
 
