@@ -23,7 +23,7 @@ class GateIoCrawler(BaseCrawler):
         return  next_page.get_attribute('aria-disabled') is None
     
     def go_to_next_page(self):
-        if(self.driver.current_url == 'https://www.gate.io/rebate/partner/admin/dataCenter'):
+        if(self.driver.current_url == 'https://www.gate.io/rebate/partner/admin/dataCenter' ):
             input('url이 변경되었습니다. Traders Management > Traders List로 이동 후 엔터를 눌러주세요')
             self.sleep(2)
         next_page_buttons = self.driver.find_elements(By.CSS_SELECTOR, 'button.mantine-GatePagination-item')
@@ -123,7 +123,7 @@ class GateIoCrawler(BaseCrawler):
         while self.check_login_required():
             input('로그인 후 엔터를 눌러주세요')
 
-        while self.driver.current_url != self.base_url:
+        while (self.driver.current_url != self.base_url or self.driver.current_url != 'https://www.gate.io/rebate/agency/admin/dataCenter'):
             input('url이 변경되었습니다. Traders Management > Traders List로 이동 후 엔터를 눌러주세요')
             self.sleep(2)
 
