@@ -124,7 +124,9 @@ class GateIoCrawler(BaseCrawler):
             input('로그인 후 엔터를 눌러주세요')
 
         while (self.driver.current_url != self.base_url or self.driver.current_url != 'https://www.gate.io/rebate/agency/admin/customerManagement/customer' or self.driver.current_url != 'https://gate.io/rebate/agency/admin/customerManagement/customer'):
-            input('url이 변경되었습니다. Traders Management > Traders List로 이동 후 엔터를 눌러주세요')
+            res = input('url이 변경되었습니다. Traders Management > Traders List로 이동 후 엔터를 눌러주세요, 만약 이동이 되었는데 계속 이 메시지가 뜬다면 Y를 입력한 뒤 엔터를 눌러주세요 :')
+            if(res == 'Y' or res == 'y'):
+                break
             self.sleep(2)
 
         self.sleep(2)
