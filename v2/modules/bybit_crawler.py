@@ -19,10 +19,8 @@ class BybitCrawler(BaseCrawler):
         return 'login' in self.driver.current_url
     
     def get_total_pages(self):
-        results_h5 = self.driver.find_elements(By.CSS_SELECTOR, 'div.clients-page-table-panel > h5.ant-typography')[0].text.replace(' Results', '')
-        results = int(results_h5)
-        total_page = results // 20 
-        return total_page - 1
+        total_page = input('총 페이지 수를 입력해주세요: ')
+        return int(total_page)
     
     def get_table_trs(self):
         table = self.driver.find_element(By.CSS_SELECTOR, 'div.ant-table-content > table')
