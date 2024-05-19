@@ -1,10 +1,12 @@
 import pickle
 import undetected_chromedriver as uc
 from selenium_stealth import stealth
-
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from v2.modules.gateio_crawler import GateIoCrawler
 
-options = uc.ChromeOptions()
+options = webdriver.ChromeOptions()
 # 팝업 차단을 활성화합니다.
 options.add_argument('--disable-popup-blocking')
 chrome_path='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
@@ -18,7 +20,9 @@ options.add_argument(f"--profile-directory={profile_directory}")
 
 
 # WebDriver 객체 생성
-driver = uc.Chrome( options = options,enable_cdp_events=True, version_main=120)
+# driver = uc.Chrome( options = options,enable_cdp_events=True, version_main=120)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
 
 # selenium_stealth 설정
 stealth(driver,

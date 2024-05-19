@@ -1,10 +1,14 @@
 import pickle
 import undetected_chromedriver as uc
 from selenium_stealth import stealth
-
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from v2.modules.gateio_crawler import GateIoCrawler
 from v2.modules.gateio_crawler import GateIoCrawler
 try:
-        options = uc.ChromeOptions()
+        # options = uc.ChromeOptions()
+        options = webdriver.ChromeOptions()
         # 팝업 차단을 활성화합니다.
         options.add_argument('--disable-popup-blocking')
         
@@ -14,7 +18,8 @@ try:
 
 
         # WebDriver 객체 생성
-        driver = uc.Chrome( options = options,enable_cdp_events=True,incognito=True)
+        # driver = uc.Chrome( options = options,enable_cdp_events=True,incognito=True)
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
         # selenium_stealth 설정
         stealth(driver,

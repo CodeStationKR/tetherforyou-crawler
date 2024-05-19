@@ -84,13 +84,13 @@ def main():
     #     print('바이낸스 크롤링 중 에러 발생')
     #     print(e)
 
-    try:
-        bitget_crawler = BitgetCrawler(driver)
-        bitget_crawler.run()
-    except Exception as e:
+    # try:
+    #     bitget_crawler = BitgetCrawler(driver)
+    #     bitget_crawler.run()
+    # except Exception as e:
 
-        print('비트겟 크롤링 중 에러 발생')
-        print(e)
+    #     print('비트겟 크롤링 중 에러 발생')
+    #     print(e)
 
 
 
