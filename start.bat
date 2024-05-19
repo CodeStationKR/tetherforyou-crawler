@@ -6,7 +6,7 @@ git pull
 @REM 2 for specific
 @REM 3 for none
 
-set /p mode=Select Crawler (1 ALL, 2 BINANCE, 3 BINGX, 4 BITGET, 5 BITMART, 6 GATE.IO):
+set /p mode=Select Crawler (1 ALL, 2 BINANCE, 3 BINGX, 4 BITGET, 5 BITMART, 6 GATE.IO, 7 BYBIT):
 @REM if mode is 1
 if %mode%==1 (
     @REM run all
@@ -43,6 +43,12 @@ if %mode%==5 (
 if %mode%==6 (
     @REM run gateio
     python only_gateio_server.py
+)
+
+@REM if mode is 7
+if %mode%==7 (
+    @REM run bybit
+    python only_bybit_v2_server.py
 )
 
 pause
