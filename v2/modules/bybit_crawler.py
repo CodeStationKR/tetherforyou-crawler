@@ -118,7 +118,7 @@ class BybitCrawler(BaseCrawler):
             for i in range(1, total_page + 1):
                 print(f'{day} {i} 페이지 크롤링 중... {total_page} 페이지 중 {i} 페이지')
                 self.go_to_page(i, url)
-                self.sleep(2)
+                self.sleep(5)
                 temp = self.get_results(day)
                 print(f'{day} {i} 페이지 크롤링 완료')
                 results = results + temp
