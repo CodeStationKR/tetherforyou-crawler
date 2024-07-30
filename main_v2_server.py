@@ -54,7 +54,7 @@ def main():
     options.add_argument(f"profile-directory={profile_directory}")
 
     options.binary_location = chrome_path
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome( options=options)
 
     try:
         bingx_crawler = BingXCrawler(driver)
