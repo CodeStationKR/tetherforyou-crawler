@@ -16,7 +16,8 @@ options.add_argument("user-data-dir=Chrome")
 options.add_argument("profile-directory=Default")
 
 options.binary_location = chrome_path
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+# driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+driver = webdriver.Chrome(options=options)
 
 today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 yesterday = time.strftime('%Y-%m-%d', time.localtime(time.time() - 86400))

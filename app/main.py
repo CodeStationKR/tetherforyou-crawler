@@ -14,7 +14,8 @@ options.add_argument('--disable-dev-shm-usage')
 # options.add_argument("user-agent=Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko")
 options.add_argument('user-agent=Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36')
 options.binary_location = chrome_path
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+# driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+driver = webdriver.Chrome(options=options)
 
 today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 yesterday = time.strftime('%Y-%m-%d', time.localtime(time.time() - 86400))

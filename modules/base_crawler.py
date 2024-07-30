@@ -17,7 +17,8 @@ class BaseCrawler():
         options.add_argument(f"profile-directory={profile_directory}")
 
         options.binary_location = chrome_path
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        # self.# driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        self.driver = webdriver.Chrome(options=options)
 
     def get(self, url):
         # get url and wait for only 5 seconds

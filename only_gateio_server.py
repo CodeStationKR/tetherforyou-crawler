@@ -19,7 +19,8 @@ try:
 
         # WebDriver 객체 생성
         # driver = uc.Chrome( options = options,enable_cdp_events=True,incognito=True)
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(options=options)
 
         # selenium_stealth 설정
         stealth(driver,

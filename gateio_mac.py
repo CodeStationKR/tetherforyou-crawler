@@ -21,7 +21,8 @@ options.add_argument(f"--profile-directory={profile_directory}")
 
 # WebDriver 객체 생성
 # driver = uc.Chrome( options = options,enable_cdp_events=True, version_main=120)
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+# driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+driver = webdriver.Chrome(options=options)
 
 
 # selenium_stealth 설정
