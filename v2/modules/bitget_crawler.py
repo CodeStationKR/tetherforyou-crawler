@@ -76,7 +76,7 @@ class BitgetCrawler(BaseCrawler):
 
     def get_total_trade(self, tds):
         result = 0.0
-        total_trade = tds[3].find_element(By.CSS_SELECTOR, 'div > span').text
+        total_trade = tds[4].find_element(By.CSS_SELECTOR, 'div > span').text
         if('\n' in total_trade):
             total_trades = total_trade.split('\n')
             for total_trade in total_trades:
