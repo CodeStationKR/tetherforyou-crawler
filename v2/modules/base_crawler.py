@@ -4,7 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 class BaseCrawler():
     def __init__(self, driver : webdriver.Chrome):
-        self.base_api_url = 'https://tetherforyou.com/api'
+        self.base_api_url = 'https://tetherforyou-com.vercel.app/api'
         self.driver = driver
 
     def get(self, url):
