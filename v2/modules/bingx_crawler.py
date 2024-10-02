@@ -57,7 +57,7 @@ class BingXCrawler(BaseCrawler):
     
     def get_settled_commission(self, tds):
         result = 0.0
-        settled_commission = tds[-3].text
+        settled_commission = tds[-2].text
         if('\n' in settled_commission):
             settled_commissions = settled_commission.split('\n')
             for settled_commission in settled_commissions:
