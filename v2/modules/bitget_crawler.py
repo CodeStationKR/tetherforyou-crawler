@@ -96,6 +96,7 @@ class BitgetCrawler(BaseCrawler):
                 result += settled_commission
         else:
             result = self.preprocess(settled_commission)
+        
         return result
     
     def get_results(self, day):
@@ -106,6 +107,7 @@ class BitgetCrawler(BaseCrawler):
             uid = self.get_uid(tds)
             total_trade = self.get_total_trade(tds)
             settled_commission = self.get_settled_commission(tds)
+            print(uid, total_trade, settled_commission)
             results.append({
                 'uid': uid,
                 'transaction': total_trade,
@@ -113,6 +115,11 @@ class BitgetCrawler(BaseCrawler):
                 'date': day
             })
         return results
+    # 2331976346
+    
+    def close_modal(self):
+        close_button = self.driver.find_element(By.CSS_SELECTOR, 'div.ant-modal-content > button.ant-modal-close')
+        close_button.click()
             
     
     def upload(self, results: list[dict]):
@@ -128,11 +135,13 @@ class BitgetCrawler(BaseCrawler):
 
     def run(self):
         print('Bitget 크롤링을 시작합니다.')
+        three_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 3))
         two_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 2))
         yesterday = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24))
         today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
         days = [
+            three_days_ago,
             two_days_ago,   
             yesterday,
             today
@@ -145,6 +154,11 @@ class BitgetCrawler(BaseCrawler):
             
             self.get(self.base_url)
             self.sleep(3)
+            try:
+                self.close_modal()
+            except:
+                pass
+            self.sleep(1)
             self.go_to_date(day)
             self.sleep(2)
             try:
