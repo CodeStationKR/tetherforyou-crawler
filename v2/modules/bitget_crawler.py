@@ -135,12 +135,18 @@ class BitgetCrawler(BaseCrawler):
 
     def run(self):
         print('Bitget 크롤링을 시작합니다.')
+        six_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 6))
+        five_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 5))
+        four_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 4))
         three_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 3))
         two_days_ago = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24 * 2))
         yesterday = time.strftime('%Y-%m-%d', time.localtime(time.time() - 60 * 60 * 24))
         today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
         days = [
+            six_days_ago,
+five_days_ago,
+four_days_ago,
             three_days_ago,
             two_days_ago,   
             yesterday,
@@ -159,6 +165,8 @@ class BitgetCrawler(BaseCrawler):
             except:
                 pass
             self.sleep(1)
+            self.go_to_date(day)
+            self.sleep(2)
             self.go_to_date(day)
             self.sleep(2)
             try:
