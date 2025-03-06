@@ -16,13 +16,15 @@ class BinanceCrawler(BaseCrawler):
 
     def check_login_required(self):
         try:
-            self.driver.find_element(By.CSS_SELECTOR, 'div#Commissions')
+            self.driver.find_element(By.CSS_SELECTOR, 'div.bn-flex > div.bn-tabs > div.bn-tab-list > div')
             return False
         except:
             return True
     
     def get_table_trs(self):
-        table = self.driver.find_element(By.CSS_SELECTOR, 'div#Commissions div.bn-table-content > table')
+        self.click_reward()
+        self.sleep(2)
+        table = self.driver.find_element(By.CSS_SELECTOR, 'div.bn-web-table-content > table')
         tbody = table.find_element(By.CSS_SELECTOR, 'tbody')
         trs = tbody.find_elements(By.CSS_SELECTOR, 'tr')
         return trs[1:]
@@ -36,33 +38,50 @@ class BinanceCrawler(BaseCrawler):
     
     def can_go_next_page(self):
         try:
-            next_page = self.driver.find_element(By.CSS_SELECTOR, 'div#Commissions button#next-page')
-            return (not next_page.get_attribute('disabled'), next_page)
-        except:
+            pages = self.driver.find_elements(By.CSS_SELECTOR, 'div.bn-pagination-items > a')
+            currentPage = 0
+            for i, page in enumerate(pages):
+                if 'active' not in page.get_attribute('class'):
+                    continue
+                if len(pages) - 1 == i:
+                    return (False, None) # last page
+                text = page.text
+                currentPage = int(text)
+            for page in pages:
+                text = page.text
+                nextPageText = str(currentPage + 1)
+                if text == nextPageText:
+                    return (True, page)
+        except Exception as e:
+            print(e)
             return (False, None)
-        
-    def go_to_page(self, page):
-        page_input = self.driver.find_element(By.CSS_SELECTOR, 'div.ant-pagination-options-quick-jumper > input')
-        page_input.clear()
-        page_input.send_keys(page)
-        page_input.send_keys(Keys.ENTER)
+
+    def click_reward(self): 
+        reward_btns = self.driver.find_elements(By.CSS_SELECTOR, "div.bn-flex > div.bn-tabs > div.bn-tab-list > div")
+        reward_btn = reward_btns[1]
+        try:
+            reward_btn.click()
+        except:
+            pass
         
     
     def get_uid(self, tds):
-        return tds[1].text.replace('\n', '').replace(' ', '')
+        return tds[0].text.replace('\n', '').replace(' ', '')
 
     def get_total_trade(self, tds):
         result = 1
         return result
     
     def get_commission_time(self, tds):
-        text = tds[-2].text
+        text = tds[2].text
         date = text.split(' ')[0]
         return datetime.datetime.strptime(date, '%Y-%m-%d')
     
     def get_settled_commission(self, tds):
         result = 0.0
-        settled_commission = tds[2].text
+        settled_commission = tds[-2].text
+        if('USDT' not in settled_commission):
+            return result
         if('\n' in settled_commission):
             settled_commissions = settled_commission.split('\n')
             for settled_commission in settled_commissions:
@@ -89,10 +108,11 @@ class BinanceCrawler(BaseCrawler):
                 'payback': settled_commission * 0.9,
                 'date': commission_time_str,
             }
+            print(result)
 
             today = datetime.datetime.now()
             today = datetime.datetime(today.year, today.month, today.day)
-            two_days_ago = today - datetime.timedelta(days=2)
+            two_days_ago = today - datetime.timedelta(days=5)
             if(commission_time < two_days_ago):
                 return False
 
@@ -128,13 +148,15 @@ class BinanceCrawler(BaseCrawler):
             input('로그인 후 엔터를 눌러주세요')
         self.get(self.base_url)
         self.sleep(2)
+
+
         try:
             while(self.can_go_next_page()[0]):
                 result = self.get_results()
                 if(result == False):
                     break
                 self.can_go_next_page()[1].click()
-                self.sleep(2)
+                self.sleep(5)
         except Exception as e:
             self.get(self.base_url)
             self.sleep(2)

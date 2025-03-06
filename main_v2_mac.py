@@ -78,20 +78,20 @@ def main():
     #     print('비트마트 크롤링 중 에러 발생')
     #     print(e)
 
-    # try:
-    #     binance_crawler = BinanceCrawler(driver)
-    #     binance_crawler.run()
-    # except Exception as e:
-    #     print('바이낸스 크롤링 중 에러 발생')
-    #     print(e)
-
     try:
-        bitget_crawler = BitgetCrawler(driver)
-        bitget_crawler.run()
+        binance_crawler = BinanceCrawler(driver)
+        binance_crawler.run()
     except Exception as e:
-
-        print('비트겟 크롤링 중 에러 발생')
+        print('바이낸스 크롤링 중 에러 발생')
         print(e)
+
+    # try:
+    #     bitget_crawler = BitgetCrawler(driver)
+    #     bitget_crawler.run()
+    # except Exception as e:
+
+    #     print('비트겟 크롤링 중 에러 발생')
+    #     print(e)
 
 
 
