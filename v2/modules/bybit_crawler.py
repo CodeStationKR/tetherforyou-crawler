@@ -100,13 +100,10 @@ class BybitCrawler(BaseCrawler):
         today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
         days = [
-            '2025-01-01',
-            '2025-01-02',
-            '2025-01-03',
-            # '2025-01-04',
-            # two_days_ago,   
-            # yesterday,
-            # today
+          
+            two_days_ago,   
+            yesterday,
+            today
         ]
 
         for day in days:
