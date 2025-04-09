@@ -13,6 +13,8 @@ if %mode%==1 (
     python main_v2_server.py
     @REM after main server is done run gateio
     python only_gateio_server.py
+    @REM after gateio is done run bybit
+    python only_bybit_v2_stealth_server.py
 )
 
 @REM if mode is 2
@@ -48,7 +50,7 @@ if %mode%==6 (
 @REM if mode is 7
 if %mode%==7 (
     @REM run bybit
-    python only_bybit_v2_server.py
+    python only_bybit_v2_stealth_server.py
 )
 
 pause

@@ -62,13 +62,6 @@ def main():
     except Exception as e:
         print('빙엑스 크롤링 중 에러 발생')
         print(e)
-    
-    try:
-        bybit_crawler = BybitCrawler(driver)
-        bybit_crawler.run()
-    except Exception as e:
-        print('바이비트 크롤링 중 에러 발생')
-        print(e)
 
     try:
         bitmart_crawler = BitmartCrawler(driver)
